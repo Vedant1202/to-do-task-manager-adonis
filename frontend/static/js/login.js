@@ -80,7 +80,9 @@ $('#register-submit').click(function (e) {
                     },
                     function (error) {
                         if (error.error.message.includes('ER_DUP_ENTRY')) {
-                            alert(`Error: An account with given email address already exists. Please login or try with a different email`);
+                            alert(
+                                `Error: An account with given email address already exists. Please login or try with a different email`
+                            );
                         } else {
                             alert(`Error: There was an error while signing up. Please try again.`);
                         }

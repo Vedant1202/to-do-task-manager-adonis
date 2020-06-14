@@ -18,7 +18,6 @@ function appendTasks(arrayOfTasks) {
     tasksDiv.html('');
 
     arrayOfTasks.forEach((task) => {
-
         if (task.status === 'new') {
             colorAttr = 'success';
             iconAttr = 'gift';
