@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager | Home</title>
+    <link rel="icon" href="../resources/images/todo-icon.jpg">
+
+    <!-- CSS LIBS -->
+    <link rel="stylesheet" href="../css/libs/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="../css/libs/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/libs/font-awesome.css.map"> -->
+
+    <!-- CUSTOM CSS -->
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/home.css">
+    <link rel="stylesheet" href="../css/piechart.css">
+
+    <!-- JS LIBS -->
+    <script src="../js/libs/jquery.min.js"></script>
+    <script src="../js/libs/bootstrap.min.js"></script>
+    <script src="../js/libs/popper.min.js"></script>
+    <script src="../js/libs/fa-all.min.js"></script>
+    <script src="../js/libs/d3.min.js"></script>
+
+</head>
+<body>
+
+    <!-- NAVBAR STARTS -->
+    <nav class="navbar navbar-light shadow sticky-top pl-5" id="navbar-main">
+        <a class="navbar-brand" href="#">
+            <!-- <img src="/docs/4.5/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt="" loading="lazy"> -->
+            Task Management To-Do Application
+        </a>
+        <span class="navbar-text" id="welcome">
+            <!-- Welcome message will be appended here -->
+            <button id="logout" style="margin-left: 30px;" class="btn btn-outline-dark">Logout</button>
+        </span>
+    </nav>
+    <!-- NAVBAR ENDS -->
+
+    <!-- MAIN BODY -->
+    <div class="jumbotron border shadow-sm container mt-5" style="background-color: white;">
+        <div class="row pl-4 pb-5 pt-5">
+            <!-- <div class="col-1">
+            </div> -->
+            <div class="col-3">
+                <h3 class="mt-3 mb-3" id="dashName" style="text-transform: capitalize;">
+                    <!-- Data will be appended here -->
+                </h3>
+                <i class="text text-muted" id="dashEmail">
+                    <!-- Data will be appended here -->
+                </i>
+            </div>
+            <div class="col-3">
+                <span class="task-text">
+                    <div class="row text mb-3 text-dark">
+                        <div class="col-8">
+                            Completed tasks:
+                        </div>
+                        <div class="col-4" id="completedTasksCount">
+                            <!-- Data will be appended here -->
+                        </div>
+                    </div>
+                </span>
+                <span class="task-text">
+                    <div class="row text mb-3 text-warning">
+                        <div class="col-8">
+                            In Progress tasks:
+                        </div>
+                        <div class="col-4" id="inProgressTasksCount">
+                            <!-- Data will be appended here -->
+                        </div>
+                    </div>
+                </span>
+                <span class="task-text">
+                    <div class="row text text-success">
+                        <div class="col-8">
+                            News tasks:
+                        </div>
+                        <div class="col-4" id="newTasksCount">
+                            <!-- Data will be appended here -->
+                        </div>
+                    </div>
+                </span>
+            </div>
+            <div class="col-6">
+                <div id="piechart">
+                    <!-- Pie chart gets rendered here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-5">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-5">
+                    <h2>My Tasks</h2>
+                </div>
+                <div class="col-2">
+                    <button class="btn btn-outline-primary btn-block" data-toggle="modal" data-target="#newTask">
+                        Add new task
+                        <i class="ml-2 far fa-plus-square"></i>
+                    </button>
+                </div>
+                <div class="col-2">
+                    <button class="btn btn-outline-primary btn-block" onclick="toggleClass(this, 'active');" data-toggle="collapse" data-target="#filtersDiv" aria-expanded="false" aria-controls="filtersDiv">
+                        Filters
+                        <i class="ml-3 fas fa-filter"></i>
+                    </button>
+                </div>
+                <div class="col-3">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="searchTasks" placeholder="Search and Enter">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container mb-3 mt-5 collapse" id="filtersDiv">
+            <div class="row">
+                <div class="form-group col-3">
+                    <select id="filterStatus" class="form-control" multiple>
+                        <option value="default" selected disabled>Status</option>
+                        <option value="completed">Completed</option>
+                        <option value="in_progress">In Progress</option>
+                        <option value="new">New</option>
+                    </select>
+                </div>
+                <div class="form-group col-3">
+                    <select id="filterTags" class="form-control" multiple>
+                        <option value="default" selected disabled>Tags</option>
+                        <option value="personal">Personal</option>
+                        <option value="work">Work</option>
+                        <option value="shopping">Shopping</option>
+                        <option value="others">Others</option>
+                    </select>
+                </div>
+                <div class="form-group col-3">
+                    <select id="filterSort" class="form-control">
+                        <option value="default" selected disabled>Sort By</option>
+                        <option value="dateAsc">Due Date ascending</option>
+                        <option value="dateDesc">Due Date descending</option>
+                    </select>
+                </div>
+                <div class="form-group col-3">
+                    <button class="btn btn-primary btn-block" id="applyFilters">Apply Filters</button>
+                    <button class="btn btn-danger btn-block" id="clearFilters">Clear Filters</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- TASK LIST STARTS -->
+        <div class="container-fluid mt-5 mb-5">
+            <div id="tasks-div">
+                <div class="container" id="spinner-container" style="text-align: center; height: 20em; padding-top: 10%;">
+                    <div class="spinner-border text-primary m-4" style="width: 5rem; height: 5rem;" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <!-- TASKS WILL BE APPENDED HERE -->
+            </div>
+            <!-- TASK LIST ENDS -->
+        </div>
+    </div>
+
+
+    <!-- <div id="pgNumber" class="container">
+        <ul class="pagination justify-content-center">
+            <li class="page-item disabled">
+                <button class="page-link" id="prevPage">Previous</button>
+            </li>
+            <li class="page-item active">
+                <button class="page-link">1</button>
+            </li>
+            <li class="page-item disabled">
+                <button class="page-link"id="nextPage">Next</button>
+            </li>
+        </ul>
+    </div> -->
+
+
+    <!-- ADD NEW TASK MODAL STARTS -->
+    <div class="modal fade" id="newTask" tabindex="-1" role="dialog" aria-labelledby="newTaskModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="newTaskModalLabel">Add new task</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="newTaskForm">
+                        <div class="form-group">
+                            <label for="newTaskTitle">Title</label>
+                            <input type="text" class="form-control" id="newTaskTitle" placeholder="Task Title (required)">
+                        </div>
+                        <div class="form-group">
+                            <label for="newTaskDesc">Description</label>
+                            <textarea class="form-control" id="newTaskDesc" placeholder="Task Description (optional)"></textarea>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="newTaskDate">Due Date</label>
+                                <input type="date" class="form-control" id="newTaskDate">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-5">
+                                <label for="newTaskStatus">Status</label>
+                                <select id="newTaskStatus" class="form-control">
+                                    <option selected disabled>Choose</option>
+                                    <option value="completed">Completed</option>
+                                    <option value="in_progress">In Progress</option>
+                                    <option value="new">New</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-7">
+                                <label for="newTaskTags">
+                                    Label
+                                    <small class="text text-muted ml-3">Select multiple using 'CTRL' key</small>
+                                </label>
+                                <select id="newTaskTags" class="form-control" multiple>
+                                    <option selected disabled>Choose</option>
+                                    <option value="personal">Personal</option>
+                                    <option value="work">Work</option>
+                                    <option value="shopping">Shopping</option>
+                                    <option value="others">Others</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="addNewTask">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ADD NEW TASK MODAL ENDS -->
+
+
+    <!-- EDIT TASK MODAL STARTS -->
+    <div class="modal fade" id="editTask" tabindex="-1" role="dialog" aria-labelledby="editTaskModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editTaskModalLabel">Edit new task</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="newTaskForm">
+                        <div class="form-group">
+                            <label for="editTaskTitle">Title</label>
+                            <input type="text" class="form-control" id="editTaskTitle" placeholder="Task Title (required)">
+                        </div>
+                        <div class="form-group">
+                            <label for="editTaskDesc">Description</label>
+                            <textarea class="form-control" id="editTaskDesc" placeholder="Task Description (optional)"></textarea>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="editTaskDate">Due Date</label>
+                                <input type="date" class="form-control" id="editTaskDate">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-5">
+                                <label for="editTaskStatus">Status</label>
+                                <select id="editTaskStatus" class="form-control">
+                                    <option selected disabled>Choose</option>
+                                    <option value="completed">Completed</option>
+                                    <option value="in_progress">In Progress</option>
+                                    <option value="new">New</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-7">
+                                <label for="editTaskTags">
+                                    Label
+                                    <small class="text text-muted ml-3">Select multiple using 'CTRL' key</small>
+                                </label>
+                                <select id="editTaskTags" class="form-control" multiple>
+                                    <option selected disabled>Choose</option>
+                                    <option value="personal">Personal</option>
+                                    <option value="work">Work</option>
+                                    <option value="shopping">Shopping</option>
+                                    <option value="others">Others</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="updateTask" onclick="handleEditTask(event, this);">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- EDIT TASK MODAL ENDS -->
+
+
+
+    <!-- CUSTOM JS -->
+    <script src="../js/util.js"></script>
+    <script src="../js/piechart.js"></script>
+    <script src="../controller/tasks.js"></script>
+    <script src="../controller/auth.js"></script>
+    <script src="../js/home.js"></script>
+
+</body>
+</html>
