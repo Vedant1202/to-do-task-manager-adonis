@@ -1,16 +1,14 @@
 # TO-DO TASK MANAGER
 
-A to-do task manager application with functions to add, update, remove tasks. User login functionality has been implemented.
+A to-do task manager application based on [AdonisJS](https://adonisjs.com/) backend with functions to add, update, remove tasks. User login functionality has been implemented.
 Login sessions based on [JWT (JSON Web Token)](https://jwt.io/) authentication strategy. Tokens are encrypted using RSA based private-public key mechanism.
-
-#### Demo at [https://to-do-task-manager-1299.herokuapp.com/login](https://to-do-task-manager-1299.herokuapp.com/login)
 
 ## Features
 
  - Frontend static file server based on [express](https://expressjs.com/)
- - Server API based on [node.js](https://nodejs.org/en/) and [express.js](https://expressjs.com/)
- - Database based on [MongoDB](https://www.mongodb.com/) and accessed through [mongoose](https://mongoosejs.com/)
- - JWT based authentication based on [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
+ - Server API based on [node.js](https://nodejs.org/en/) and [AdonisJS](https://adonisjs.com/) Framework
+ - Database based on [MySQL](https://www.mysql.com/) and accessed through [Lucid Models](https://adonisjs.com/docs/4.0/lucid)
+ - JWT based authentication based on [AdonisJS Auth](https://adonisjs.com/docs/4.0/authentication)
  - Server monitoring based on [nodemon](https://nodemon.io/)
  - Code linting and styling based on [eslint](https://eslint.org/) and [prettier](https://prettier.io/)
 
@@ -21,8 +19,8 @@ required dependencies.
 
 Clone the repository
 ```bash
-git clone https://github.com/Vedant1202/to-do-task-manager.git
-cd to-do-task-manager
+git clone https://github.com/Vedant1202/to-do-task-manager-adonis.git
+cd to-do-task-manager-adonis
 ```
 
 #### For backend setup
@@ -35,19 +33,20 @@ You can choose to use [ssh-keygen](https://www.ssh.com/ssh/keygen/).
 - For all OS:
 You can use an online key pair generator like [this](https://travistidwell.com/jsencrypt/demo/).
 
-- After generating keys, name then as `public.key` and `private.key` and copy the files in `backend/keys/`
+- After generating keys, name then as `public.key` and `private.key` and copy the files in `to-do-api/keys/`.
+- For easy installation sample keys have been provided in `to-do-api/keys/`.
 
 To install backend dependencies
 
 - Using yarn
 ```bash
-cd backend
+cd to-do-api
 yarn install
 ```
 
 - Using npm
 ```bash
-cd backend
+cd to-do-api
 npm install
 ```
 
@@ -58,14 +57,14 @@ To install frontend dependencies
  - Using yarn
 
 ```bash
-cd backend
+cd frontend
 yarn install
 ```
 
  - Using npm
 
 ```bash
-cd backend
+cd frontend
 npm install
 ```
 
@@ -76,18 +75,18 @@ To start backend API
  - Using yarn
 
 ```bash
-cd backend
+cd to-do-api
 yarn start
 ```
 
  - Using npm
 
 ```bash
-cd backend
+cd to-do-api
 npm start
 ```
 
- - API is live on `http://localhost:4000/`
+ - API is live on `http://localhost:3333/`
 
 
 To start frontend static server
