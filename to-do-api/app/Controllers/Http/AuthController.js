@@ -30,7 +30,6 @@ class AuthController {
 
     async login({ request, auth, response }) {
         const email = request.input('email');
-        console.log(email);
         const password = request.input('password');
         try {
             if (email.length > 0 && password.length > 0) {
