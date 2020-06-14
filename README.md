@@ -34,7 +34,7 @@ You can choose to use [ssh-keygen](https://www.ssh.com/ssh/keygen/).
 You can use an online key pair generator like [this](https://travistidwell.com/jsencrypt/demo/).
 
 - After generating keys, name then as `public.key` and `private.key` and copy the files in `to-do-api/keys/`.
-- For easy installation sample keys have been provided in `to-do-api/keys/`.
+- For easy installation sample keys have been provided in `to-do-api/keys/`. Rename them as `public.key` and `private.key` respectively.
 
 To install backend dependencies
 
