@@ -9,7 +9,7 @@ class AuthController {
         const name = request.input('name');
         const email = request.input('email');
         // const password = await Hash.make(request.input("password"))
-        const password = request.input('password');
+        const password = await Hash.make(request.input('password'));
 
         let user = {};
         user.name = name;
@@ -30,15 +30,28 @@ class AuthController {
 
     async login({ request, auth, response }) {
         const email = request.input('email');
+        console.log(email);
         const password = request.input('password');
         try {
-            if (await auth.attempt(email, password)) {
+            if (email.length > 0 && password.length > 0) {
                 let user = await User.findBy('email', email);
-                let accessToken = await auth.generate(user);
-                return response.json({ user: user, access_token: accessToken });
+
+                if (await Hash.verify(password, user.password)) {
+                    const respUserData = {
+                        name: user.name,
+                        email: user.email,
+                        userId: user.id,
+                    };
+
+                    let accessToken = await auth.generate(user);
+                    return response.json({ user: respUserData, access_token: accessToken });
+
+                } else {
+                    return response.status(401).message({ message: 'Wrong credentials' });
+                }
             }
         } catch (e) {
-            return response.json({ message: 'You first need to register!' });
+            return response.status(401).json({ message: 'Wrong or unregistered credentials' });
         }
     }
 }

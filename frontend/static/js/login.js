@@ -35,7 +35,7 @@ $('#login-submit').click(function (e) {
                     Nav.assign('home');
                 },
                 function (error) {
-                    alert(`Error: ${error.error.message}`);
+                    alert(`Error: ${error.responseJSON.message}`);
                     $('#login-submit').html('Login');
                     console.log(error);
                 }
