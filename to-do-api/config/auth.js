@@ -73,8 +73,8 @@ module.exports = {
         password: 'password',
         options: {
             algorithm: 'RS256',
-            secret: fs.readFileSync(path.resolve(__dirname, '../keys/private.sample.key')),
-            public: fs.readFileSync(path.resolve(__dirname, '../keys/public.sample.key')),
+            secret: fs.readFileSync(path.resolve(__dirname, '../keys/private.key')),
+            public: fs.readFileSync(path.resolve(__dirname, '../keys/public.key')),
         },
     },
 
