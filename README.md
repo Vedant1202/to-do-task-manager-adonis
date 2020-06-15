@@ -55,7 +55,7 @@ npm install
 - Install and configure MySQL database from [here](https://www.mysql.com/downloads/) (recommended although other databases could also be used)
 - Copy the `to-do-api/.env.example` to `to-do-api/.env`
 - Edit the database variables in `to-do-api/.env`
-- Create a database in named `to-do`
+- Create a database named `to-do`
 
 #### For frontend setup
 
