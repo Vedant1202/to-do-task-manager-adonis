@@ -44,7 +44,6 @@ class AuthController {
 
                     let accessToken = await auth.generate(user);
                     return response.json({ user: respUserData, access_token: accessToken });
-
                 } else {
                     return response.status(401).message({ message: 'Wrong credentials' });
                 }
