@@ -50,7 +50,7 @@ cd to-do-api
 npm install
 ```
 
-To configure database
+#### To setup and configure database
 
 - Install and configure MySQL database from [here](https://www.mysql.com/downloads/) (recommended although other databases could also be used)
 - Copy the `to-do-api/.env.example` to `to-do-api/.env`
